@@ -3,17 +3,24 @@ import { LinkContainer } from "react-router-bootstrap";
 
 function NavBar() {
   return (
-    <Navbar bg="primary" variant="dark" expand="lg"> {/* bg = cor da barra, variant = deixa a cor mais forte, expand = responsivel para telas de smartphones*/}
+    <Navbar bg="primary" variant="dark" expand="lg">
+      {" "}
+      {/* bg = cor da barra, variant = deixa a cor mais forte, expand = responsivel para telas de smartphones*/}
       <Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-
           <Nav className="me-auto">
             <LinkContainer to="/cadastro">
               <Nav.Link>Cadastro</Nav.Link>
             </LinkContainer>
 
-            
+            <LinkContainer to="/cadastro-professor">
+              <Nav.Link>Professor</Nav.Link>
+            </LinkContainer>
+
+            <LinkContainer to="/cadastro-aluno">
+              <Nav.Link>Aluno</Nav.Link>
+            </LinkContainer>
           </Nav>
 
           <Nav>
@@ -21,7 +28,6 @@ function NavBar() {
               <Nav.Link>Login</Nav.Link>
             </LinkContainer>
           </Nav>
-
         </Navbar.Collapse>
       </Container>
     </Navbar>

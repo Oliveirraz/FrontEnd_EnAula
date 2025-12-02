@@ -1,0 +1,37 @@
+/*CONTAINER (igual ao login)*/
+.prof-container {
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
+}
+
+/*CARD */
+.prof-card {
+  width: 420px;
+  margin-top: -100px;
+  margin-left: 650px;
+  background-color: rgba(26, 109, 101, 0.88);
+  backdrop-filter: blur(4px);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+/*  INPUTS */
+.prof-input,
+.prof-textarea {
+  background-color: #e2ffff;
+  border: 1px solid #9eefef;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* textarea mais alto */
+.prof-textarea {
+  height: 80px;
+  resize: none;
+}
