@@ -1,0 +1,14 @@
+/*
+  FONTES ACADÊMICAS GLOBAIS - QUE ACHEI MAIS BONITAS
+  */
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
+
+/* FONTES ACADÊMICAS GLOBAIS */
+h2 {
+  font-family: "Playfair Display", serif !important;
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1px !important;
+  color: white !important;
+}
+

@@ -1,0 +1,34 @@
+.login-container {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Card do login */
+.login-card {
+  width: 360px;
+  margin-left: 30px;
+  background-color: rgba(26, 109, 101, 0.88) !important; /*sobreescrever a cor*/
+  backdrop-filter: blur(4px);
+  margin-top: -200px;
+}
+
+/* Inputs */
+.login-input {
+  background-color: #E2FFFF;
+  border: 1px solid #9EEFEF;
+}
+
+/* Botão */
+.login-button {
+  background-color: #0077A8;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+}

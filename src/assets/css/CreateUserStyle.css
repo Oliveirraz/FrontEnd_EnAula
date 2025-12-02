@@ -1,0 +1,18 @@
+
+/* fundo da página */
+.createuser-container {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+}
+
+/* card central */
+.createuser-card {
+  width: 380px;
+  background-color: rgba(26, 109, 101, 0.88);
+  backdrop-filter: blur(4px);
+   border-radius: 6px;
+}
+
