@@ -1,0 +1,154 @@
+/* CONTAINER */
+.aluno-container {
+  min-height: 100vh;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CARD */
+.alunoPerfil-card {
+  width: 780px;
+  max-height: 85vh;
+  background-color: rgba(26, 109, 101, 0.88);
+  backdrop-filter: blur(4px);
+  border-radius: 14px;
+  padding: 20px;
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  position: relative; /* NECESSÁRIO PARA O BOTÃO SAIR */
+}
+
+/* BOTÃO LOGOUT */
+.aluno-btn-logout {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: all 0.3s ease;
+}
+
+.aluno-btn-logout:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* FOTO CENTRAL */
+.aluno-foto {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* UPLOAD */
+.aluno-upload {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+/* ÁREA ABAIXO DA FOTO */
+.aluno-conteudo {
+  display: flex;
+  gap: 20px;
+}
+
+/* COLUNA ESQUERDA – PERFIL */
+.aluno-perfil {
+  width: 360px;
+}
+
+/* INPUTS */
+.aluno-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  margin-top: 8px;
+}
+
+/* BOTÕES */
+.aluno-btn-salvar,
+.aluno-btn-excluir,
+.aluno-btn-materias {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.aluno-btn-salvar {
+  background: linear-gradient(135deg, #1abc9c, #0f766e);
+}
+
+.aluno-btn-excluir {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.aluno-btn-materias {
+  background: linear-gradient(135deg, #16a085, #0f766e);
+}
+
+.aluno-btn-salvar:hover,
+.aluno-btn-excluir:hover,
+.aluno-btn-materias:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* COLUNA DIREITA – MATÉRIAS */
+.aluno-materias {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TÍTULO */
+.aluno-titulo {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* LISTA COM SCROLL */
+.aluno-materias-lista {
+  overflow-y: auto;
+  max-height: 300px;
+  padding-right: 6px;
+}
+
+/* ITEM MATÉRIA */
+.aluno-aula {
+  background-color: rgba(0, 0, 0, 0.18);
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.aluno-sem-materias {
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.85;
+}

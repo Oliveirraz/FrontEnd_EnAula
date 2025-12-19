@@ -1,0 +1,96 @@
+/* CONTAINER PRINCIPAL */
+.materiaCadastro-container {
+  width: 100%;
+  height: 100vh;
+  background: #01D6C3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CARD */
+.materiaCadastro-card {
+  width: 420px;
+  background-color: rgba(26, 109, 101, 0.88);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+/* TÍTULO */
+.materiaCadastro-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* FORMULÁRIO */
+.materiaCadastro-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* INPUT E TEXTAREA */
+.materiaCadastro-card input,
+.materiaCadastro-card textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.materiaCadastro-card textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+/* BOTÕES */
+.cadastro-materia-botoes {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cadastro-materia-botoes button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* BOTÃO CADASTRAR */
+.cadastro-materia-botoes button[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.cadastro-materia-botoes button[type="submit"]:hover {
+  background-color: #43a047;
+}
+
+/* BOTÃO VOLTAR */
+.btn-voltar {
+  background-color: #e53935;
+  color: #fff;
+}
+
+.btn-voltar:hover {
+  background-color: #d32f2f;
+}
+
+/* BOTÃO DESABILITADO */
+.cadastro-materia-botoes button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

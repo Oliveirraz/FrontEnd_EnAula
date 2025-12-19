@@ -1,51 +1,92 @@
-{/* Meus imports*/}
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginAluno } from "../services/AlunoService";
+import { loginProfessor } from "../services/professorService";
 import loginTela from "../assets/imagens/loginTela.png";
 import "../assets/css/LoginStyle.css";
 
 function Login() {
-  const navigate = useNavigate(); {/*Pega a função do navigate, posso mudar de pagina via codigo*/}
-  const [form, setForm] = useState({ login: "", password: "" }); {/*Guarda o que o usuário esta digitando*/}
+  const navigate = useNavigate();
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [form, setForm] = useState({
+    email: "",
+    senha: "",
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); {/*Evito a pagina de recarregar*/}
-    console.log("Tentando login:", form); {/*mostra no console os dados digitados*/}
-    navigate("/"); {/*Redireciona o usuário para minha pagina raiz no caso a de Cadastro*/}
-  };
+  const [tipo, setTipo] = useState("aluno");
+
+  function handleChange(e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      let usuario;
+
+      if (tipo === "aluno") {
+        usuario = await loginAluno(form.email, form.senha);
+        localStorage.setItem("alunoLogado", JSON.stringify(usuario));
+        navigate("/perfil-aluno");
+      } else {
+        usuario = await loginProfessor(form.email, form.senha);
+        localStorage.setItem("professorLogado", JSON.stringify(usuario));
+        navigate("/perfil-professor");
+      }
+
+    } catch (error) {
+      alert("Email ou senha inválidos");
+    }
+  }
 
   return (
     <div
-    /*Minha imagem de Fundo com a personalização do css*/
       className="login-container"
       style={{ backgroundImage: `url(${loginTela})` }}
     >
       <div className="p-4 rounded shadow login-card">
         <h2 className="text-center login-title">Login</h2>
 
-        {/*Meu formulario de Login*/}
-        <form onSubmit={handleSubmit}> {/*Controla o que acontece quando o usuário clicar em entrar*/}
-          <label className="text-light">Usuário</label>
-          <input
-            name="login"
+        <form onSubmit={handleSubmit}>
+
+          <label className="text-light">Entrar como</label>
+          <select
             className="form-control mb-3 login-input"
+            value={tipo}
+            onChange={(e) => setTipo(e.target.value)}
+          >
+            <option value="aluno">Aluno</option>
+            <option value="professor">Professor</option>
+          </select>
+
+          <label className="text-light">Email</label>
+          <input
+            type="email"
+            name="email"
+            className="form-control mb-3 login-input"
+            value={form.email}
             onChange={handleChange}
-          /> {/* handleChange -> Captura o que o usuário esta digitando nos inputs*/}
+            required
+          />
 
           <label className="text-light">Senha</label>
           <input
             type="password"
-            name="password"
+            name="senha"
             className="form-control mb-3 login-input"
+            value={form.senha}
             onChange={handleChange}
+            required
           />
 
-          <button className="login-button mt-2">Entrar</button>
+          <button type="submit" className="login-button mt-2">
+            Entrar
+          </button>
         </form>
-        {/*Fim do meu formulário*/}
       </div>
     </div>
   );

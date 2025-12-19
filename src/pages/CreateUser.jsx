@@ -1,25 +1,39 @@
-import FormUser from "../components/FormUser";
+import { useNavigate } from "react-router-dom";
 import Cadastro from "../assets/imagens/Cadastro.png";
 import "../assets/css/CreateUserStyle.css";
 
-/*Minha função de salvar da tela de criação*/ 
 function CreateUser() {
-  const salvar = (dados) => {
-    console.log("Usuário criado:", dados);
-  };
-
+  const navigate = useNavigate();
 
   return (
     <div
-    /*(createuser-card) -> minha personalização*/
-    /*(d-flex justify-content-center align-items-center) -> Personalizações do BootStrap (display, justify-content, align-items)*/
       className="createuser-container d-flex justify-content-center align-items-center"
       style={{ backgroundImage: `url(${Cadastro})` }}
     >
-      <div className="p-4 text-light shadow createuser-card">
-        <h2 className="text-center mb-3">Cadastrar Usuário</h2>
+      <div className="p-4 text-light shadow createuser-card text-center">
+        <h2 className="mb-4">Como deseja se cadastrar?</h2>
 
-        <FormUser onSubmit={salvar} />
+        <div className="d-flex flex-column gap-3">
+
+          {/* Botão Aluno */}
+          <button
+            className="btn btn-primary d-flex align-items-center justify-content-center gap-2"
+            onClick={() => navigate("/cadastro-aluno")}
+          >
+            <i className="bi bi-mortarboard"></i>
+            Sou Aluno
+          </button>
+
+          {/* Botão Professor */}
+          <button
+            className="btn btn-success d-flex align-items-center justify-content-center gap-2"
+            onClick={() => navigate("/cadastro-professor")}
+          >
+            <i className="bi bi-person-badge"></i>
+            Sou Professor
+          </button>
+
+        </div>
       </div>
     </div>
   );

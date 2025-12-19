@@ -1,6 +1,7 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
+
 function NavBar() {
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
@@ -13,19 +14,24 @@ function NavBar() {
             <LinkContainer to="/cadastro">
               <Nav.Link>Cadastro</Nav.Link>
             </LinkContainer>
-
-            <LinkContainer to="/cadastro-professor">
-              <Nav.Link>Professor</Nav.Link>
-            </LinkContainer>
-
-            <LinkContainer to="/cadastro-aluno">
-              <Nav.Link>Aluno</Nav.Link>
+            <LinkContainer to="/perfil-professor">
+              <Nav.Link>Perfil do Professor</Nav.Link>
             </LinkContainer>
           </Nav>
-
+          <LinkContainer to="/perfil-aluno">
+            <Nav.Link>Perfil do Aluno</Nav.Link>
+          </LinkContainer>
+        <LinkContainer to="/materias">
+          <Nav.Link>Matérias</Nav.Link>
+        </LinkContainer>
           <Nav>
             <LinkContainer to="/login">
               <Nav.Link>Login</Nav.Link>
+            </LinkContainer>
+          </Nav>
+          <Nav>
+            <LinkContainer to="/login">
+              <Nav.Link>Cadastro Materia</Nav.Link>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>

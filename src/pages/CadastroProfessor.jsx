@@ -1,79 +1,95 @@
+// src/pages/CadastroProfessor.jsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { cadastrarProfessor } from "../services/professorService";
 import professorTela from "../assets/imagens/cadastroProfessorTela.png";
-import "../assets/css/ProfessorStyle.css";
+import "../assets/css/ProfessorStyle.css"; // Reaplicando o CSS do aluno
 
 function CadastroProfessor() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    materia: "",
-    descricao: "",
-    horarios: "",
-  });
+  const navigate = useNavigate();
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [foto, setFoto] = useState(null);
 
-  const submit = (e) => {
+  async function handleCadastrar(e) {
     e.preventDefault();
-    console.log("Dados cadastrados:", form);
-    alert("Professor cadastrado com sucesso!");
-  };
+
+    try {
+      const professorDTO = {
+        nome,
+        email,
+        senha,
+        perfil: "Professor",
+      };
+
+      const formData = new FormData();
+      formData.append(
+        "professor",
+        new Blob([JSON.stringify(professorDTO)], { type: "application/json" })
+      );
+
+      if (foto) {
+        formData.append("foto", foto);
+      }
+
+      const professorCriado = await cadastrarProfessor(formData);
+      localStorage.setItem("professorLogado", JSON.stringify(professorCriado));
+
+      alert("Professor cadastrado com sucesso!");
+      navigate("/perfil-professor");
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao cadastrar professor");
+    }
+  }
 
   return (
     <div
-      className="prof-container"
+      className="professor-container" // mudado para reaplicar estilo do aluno
       style={{ backgroundImage: `url(${professorTela})` }}
     >
-      <div className="p-4 rounded shadow prof-card text-light">
-        <h2 className="mb-3 text-center">Cadastro do Professor</h2>
+      <div className="prof-card"> 
+        <h2 className="aluno-title text-center">Cadastro do Professor</h2>
 
-        <form onSubmit={submit}>
+        <form onSubmit={handleCadastrar}>
           <input
-            name="name"
-            className="form-control mb-2 prof-input"
+            className="form-control mb-2"
             placeholder="Nome"
-            onChange={handleChange}
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
           />
 
           <input
-            name="email"
-            className="form-control mb-2 prof-input"
+            className="form-control mb-2"
             placeholder="Email"
-            onChange={handleChange}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
 
           <input
+            className="form-control mb-3"
             type="password"
-            name="password"
-            className="form-control mb-2 prof-input"
             placeholder="Senha"
-            onChange={handleChange}
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            required
           />
 
           <input
-            name="materia"
-            className="form-control mb-2 prof-input"
-            placeholder="Matéria que deseja lecionar"
-            onChange={handleChange}
+            className="form-control mb-3"
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFoto(e.target.files[0])}
           />
 
-          <textarea
-            name="descricao"
-            className="form-control mb-2 prof-textarea"
-            placeholder="Descrição da matéria"
-            onChange={handleChange}
-          />
-
-          <input
-            name="horarios"
-            className="form-control mb-3 prof-input"
-            placeholder="Horários disponíveis"
-            onChange={handleChange}
-          />
-
-          <button className="btn btn-success w-100">Salvar</button>
+          <button className="btn btn-success w-100" type="submit">
+            Cadastrar
+          </button>
         </form>
       </div>
     </div>

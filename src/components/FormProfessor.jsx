@@ -1,12 +1,12 @@
+// src/components/FormProfessor.jsx
 import { useState } from "react";
 import api from "../services/api";
 
-function FormUser() {
+function FormProfessor() {
   const [form, setForm] = useState({
     nome: "",
     email: "",
     senha: "",
-    materiasIDs: [], // obrigatório pelo DTO
   });
 
   const [foto, setFoto] = useState(null);
@@ -20,9 +20,9 @@ function FormUser() {
 
     const formData = new FormData();
 
-    // PARTE "aluno" (JSON compatível com AlunoRequestDTO)
+    // PARTE "professor" (JSON compatível com ProfessorRequestDTO)
     formData.append(
-      "aluno",
+      "professor",
       new Blob([JSON.stringify(form)], {
         type: "application/json",
       })
@@ -34,19 +34,19 @@ function FormUser() {
     }
 
     try {
-      await api.post("/alunos", formData);
-      alert("Aluno cadastrado com sucesso!");
+      await api.post("/professores", formData);
+      alert("Professor cadastrado com sucesso!");
 
+      // Resetar formulário
       setForm({
         nome: "",
         email: "",
         senha: "",
-        materiasIDs: [],
       });
       setFoto(null);
     } catch (error) {
-      console.error("Erro ao cadastrar aluno:", error);
-      alert("Erro ao cadastrar aluno");
+      console.error("Erro ao cadastrar professor:", error);
+      alert("Erro ao cadastrar professor");
     }
   };
 
@@ -63,6 +63,7 @@ function FormUser() {
 
       <label className="text-light">E-mail</label>
       <input
+        type="email"
         className="form-control mb-2"
         name="email"
         value={form.email}
@@ -88,9 +89,12 @@ function FormUser() {
         onChange={(e) => setFoto(e.target.files[0])}
       />
 
-      <button className="btn btn-success w-100">Salvar</button>
+      {/* Botão de salvar */}
+      <button type="submit" className="btn btn-success w-100">
+        Salvar
+      </button>
     </form>
   );
 }
 
-export default FormUser;
+export default FormProfessor;
