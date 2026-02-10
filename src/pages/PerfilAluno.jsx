@@ -5,54 +5,76 @@ import {
   atualizarAluno,
   deletarAluno,
 } from "../services/alunoservice";
-
-/* Converte imagem para Base64 */
-function converterParaBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-}
+import api from "../services/api";
 
 function PerfilAluno() {
   const navigate = useNavigate();
 
   const [aluno, setAluno] = useState(null);
-  const [foto, setFoto] = useState(null);
-  const [fotoBase64, setFotoBase64] = useState(null);
+  const [foto, setFoto] = useState(null);        // preview / base64 vinda do backend
+  const [fotoFile, setFotoFile] = useState(null); // 🔥 arquivo REAL
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
+  // 🔥 AULAS DO ALUNO
+  const [aulas, setAulas] = useState([]);
+  const [loadingAulas, setLoadingAulas] = useState(true);
+
+  /* =========================
+     🔐 BUSCAR ALUNO LOGADO
+  ========================= */
   useEffect(() => {
-    const alunoSalvo = localStorage.getItem("alunoLogado");
+    buscarAlunoLogado();
+  }, []);
 
-    if (!alunoSalvo) {
+  async function buscarAlunoLogado() {
+    try {
+      const response = await api.get("/alunos/me");
+
+      const alunoLogado = response.data;
+
+      setAluno(alunoLogado);
+      setNome(alunoLogado.nome);
+      setEmail(alunoLogado.email);
+      setSenha("");
+      setFoto(alunoLogado.foto || null);
+
+      buscarAulasDoAluno();
+    } catch (error) {
+      console.error("Erro ao buscar aluno logado", error);
       navigate("/login");
-      return;
     }
+  }
 
-    const alunoParseado = JSON.parse(alunoSalvo);
-    setAluno(alunoParseado);
-    setNome(alunoParseado.nome);
-    setEmail(alunoParseado.email);
-    setSenha("");
-    setFoto(alunoParseado.foto || null);
-  }, [navigate]);
+  /* =========================
+     📚 AULAS DO ALUNO
+  ========================= */
+  async function buscarAulasDoAluno() {
+    try {
+      const response = await api.get("/aulas/aluno");
+      setAulas(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar aulas do aluno", error);
+    } finally {
+      setLoadingAulas(false);
+    }
+  }
 
-  async function handleFotoUpload(e) {
+  /* =========================
+     📸 FOTO (ARQUIVO REAL)
+  ========================= */
+  function handleFotoUpload(e) {
     const arquivo = e.target.files[0];
     if (!arquivo) return;
 
-    const preview = URL.createObjectURL(arquivo);
-    setFoto(preview);
-
-    const base64 = await converterParaBase64(arquivo);
-    setFotoBase64(base64);
+    setFotoFile(arquivo); // 🔥 importante
+    setFoto(URL.createObjectURL(arquivo)); // preview
   }
 
+  /* =========================
+     💾 SALVAR DADOS
+  ========================= */
   async function handleSalvar() {
     try {
       const alunoAtualizado = {};
@@ -60,23 +82,26 @@ function PerfilAluno() {
       if (nome !== aluno.nome) alunoAtualizado.nome = nome;
       if (email !== aluno.email) alunoAtualizado.email = email;
       if (senha) alunoAtualizado.senha = senha;
-      if (fotoBase64) alunoAtualizado.foto = fotoBase64;
 
-      if (Object.keys(alunoAtualizado).length === 0) {
+      if (
+        Object.keys(alunoAtualizado).length === 0 &&
+        !fotoFile
+      ) {
         alert("Nenhuma alteração foi feita.");
         return;
       }
 
-      const dadosAtualizados = await atualizarAluno(aluno.id, alunoAtualizado);
+      const dadosAtualizados = await atualizarAluno(
+        alunoAtualizado,
+        fotoFile
+      );
 
       setAluno(dadosAtualizados);
       setNome(dadosAtualizados.nome);
       setEmail(dadosAtualizados.email);
       setSenha("");
       setFoto(dadosAtualizados.foto || foto);
-      setFotoBase64(null);
-
-      localStorage.setItem("alunoLogado", JSON.stringify(dadosAtualizados));
+      setFotoFile(null);
 
       alert("Dados atualizados com sucesso!");
     } catch (error) {
@@ -85,6 +110,9 @@ function PerfilAluno() {
     }
   }
 
+  /* =========================
+     ❌ EXCLUIR CONTA
+  ========================= */
   async function handleExcluir() {
     const confirmacao = window.confirm(
       "Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita."
@@ -93,8 +121,8 @@ function PerfilAluno() {
     if (!confirmacao) return;
 
     try {
-      await deletarAluno(aluno.id);
-      localStorage.removeItem("alunoLogado");
+      await deletarAluno();
+      localStorage.removeItem("token");
       alert("Conta excluída com sucesso!");
       navigate("/login");
     } catch (error) {
@@ -103,8 +131,11 @@ function PerfilAluno() {
     }
   }
 
+  /* =========================
+     🚪 LOGOUT
+  ========================= */
   function handleLogout() {
-    localStorage.removeItem("alunoLogado");
+    localStorage.removeItem("token");
     navigate("/login");
   }
 
@@ -114,16 +145,18 @@ function PerfilAluno() {
     <div className="aluno-container">
       <div className="alunoPerfil-card">
 
-        {/* BOTÃO SAIR (LOGOUT) */}
-        <button
-          className="aluno-btn-logout"
-          onClick={handleLogout}
-          title="Sair"
-        >
-          ⎋
-        </button>
+       {/* LOGOUT */}
+<button
+  className="aluno-btn-logout"
+  onClick={handleLogout}
+  title="Sair"
+  aria-label="Logout"
+>
+  ⎋
+</button>
 
-        {/* FOTO CENTRAL */}
+
+        {/* FOTO */}
         <img
           src={foto || "https://via.placeholder.com/120"}
           alt="Foto do aluno"
@@ -135,7 +168,6 @@ function PerfilAluno() {
           <input type="file" hidden onChange={handleFotoUpload} />
         </label>
 
-        {/* CONTEÚDO */}
         <div className="aluno-conteudo">
 
           {/* PERFIL */}
@@ -172,35 +204,50 @@ function PerfilAluno() {
 
             <button
               className="aluno-btn-materias"
-              onClick={() => navigate("/materias")}
+              onClick={() => navigate("/aulas")}
             >
-              Buscar matérias
+              Buscar Aulas
             </button>
           </div>
 
-          {/* MATÉRIAS */}
+          {/* 📚 AULAS */}
           <div className="aluno-materias">
-            <h3 className="aluno-titulo">Minhas matérias</h3>
+            <h3 className="aluno-titulo">Minhas Aulas</h3>
 
             <div className="aluno-materias-lista">
-              {aluno.materias?.length > 0 ? (
-                aluno.materias.map((materia) => (
-                  <div className="aluno-aula" key={materia.id}>
-                    <strong>{materia.nome}</strong>
+              {loadingAulas ? (
+                <p>Carregando aulas...</p>
+              ) : aulas.length > 0 ? (
+                aulas.map((aula) => (
+                  <div className="aluno-aula" key={aula.id}>
+                    <strong>{aula.nomeMateria}</strong>
+
+                    {aula.descricaoMateria && (
+                      <p className="aluno-assunto">
+                        📘 Assunto: {aula.descricaoMateria}
+                      </p>
+                    )}
+
                     <p>
                       Professor:{" "}
                       <Link
-                        to={`/perfil-professor/${materia.professorId}`}
+                        to={`/perfil-professor/${aula.idProfessor}`}
                         className="aluno-professor"
                       >
-                        Ver professor
+                        {aula.nomeProfessor}
                       </Link>
                     </p>
+
+                    <p>
+                      📅 {aula.data} | ⏰ {aula.horaInicio} - {aula.horaFim}
+                    </p>
+
+                    <p>📍 {aula.local}</p>
                   </div>
                 ))
               ) : (
                 <p className="aluno-sem-materias">
-                  Você ainda não adicionou matérias.
+                  Você ainda não está matriculado em nenhuma aula.
                 </p>
               )}
             </div>

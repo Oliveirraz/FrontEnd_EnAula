@@ -1,0 +1,143 @@
+/* ===============================
+   TELA DETALHE DA AULA
+================================ */
+
+.professor-aula-detalhe {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* TÍTULO */
+.professor-aula-detalhe h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+/* BLOCO DE INFO FIXA */
+.professor-aula-info {
+  background: #f7f9fc;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+.professor-aula-info strong {
+  color: #222;
+}
+
+/* FORMULÁRIO */
+.professor-aula-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: end; /* alinha inputs e botão no mesmo nível vertical */
+}
+
+.professor-aula-form label {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.professor-aula-form input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.professor-aula-form input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* FORM OCUPANDO LINHA TODA */
+.professor-aula-form .full {
+  grid-column: span 2;
+}
+
+/* AÇÕES */
+.professor-aula-acoes {
+  margin-top: 20px;
+}
+
+/* BOTÕES */
+.professor-aula-acoes button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+/* BOTÃO SALVAR */
+.professor-aula-acoes .salvar {
+  background: #2ecc71;
+  color: #fff;
+  
+}
+
+.professor-aula-acoes .salvar:hover {
+  background: #27ae60;
+}
+
+/* BOTÃO VOLTAR */
+.professor-aula-acoes .voltar {
+  background: #bdc3c7;
+  color: #2c3e50;
+}
+
+.professor-aula-acoes .voltar:hover {
+  background: #95a5a6;
+}
+
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .professor-aula-form {
+    grid-template-columns: 1fr;
+  }
+
+  .professor-aula-form .full {
+    grid-column: span 1;
+  }
+}
+
+.professor-aula-form .salvar {
+  background: #2ecc71;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  width: 100%; /* ocupa todo o espaço da célula do grid */
+  transition: all 0.2s ease;
+}
+.professor-aula-form .excluir{
+  background-color: rgba(199, 9, 9, 0.897);
+  height: 42px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  padding: 10px 14px;
+  cursor: pointer;
+
+}
+
+.professor-aula-form .salvar:hover {
+  background: #27ae60;
+}
+
+.professor-acoes-grid .voltar{
+  padding-top: 10px;
+}
+
+
+

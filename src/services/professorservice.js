@@ -30,3 +30,10 @@ export const deletarProfessor = async (id) => {
   const response = await api.delete(`/professores/${id}`);
   return response.data;
 };
+
+
+// 🔹 BUSCAR MATÉRIAS DO PROFESSOR
+export async function listarMateriasDoProfessor(professorId) {
+  const response = await api.get(`/professores/${professorId}/materias`);
+  return response.data;
+}

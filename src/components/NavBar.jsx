@@ -1,39 +1,77 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-
+import { useAuth } from "../context/AuthContext";
 
 function NavBar() {
+  const { token, userRoles, logout } = useAuth();
+
+  const isProfessor = userRoles?.includes("ROLE_PROFESSOR");
+  const isAluno = userRoles?.includes("ROLE_ALUNO");
+
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
-      {" "}
-      {/* bg = cor da barra, variant = deixa a cor mais forte, expand = responsivel para telas de smartphones*/}
       <Container>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+
+          {/* LINKS À ESQUERDA */}
           <Nav className="me-auto">
-            <LinkContainer to="/cadastro">
-              <Nav.Link>Cadastro</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/perfil-professor">
-              <Nav.Link>Perfil do Professor</Nav.Link>
-            </LinkContainer>
+
+            {/* VISÍVEL PARA TODOS */}
+            {!token && (
+              <LinkContainer to="/cadastro">
+                <Nav.Link>Cadastro</Nav.Link>
+              </LinkContainer>
+            )}
+
+            {/* PROFESSOR */}
+            {token && isProfessor && (
+              <>
+                <LinkContainer to="/perfil-professor">
+                  <Nav.Link>Perfil do Professor</Nav.Link>
+                </LinkContainer>
+
+                <LinkContainer to="/materias">
+                  <Nav.Link>Matérias</Nav.Link>
+                </LinkContainer>
+
+                <LinkContainer to="/professor/aulas/nova">
+                  <Nav.Link>Criar Aula</Nav.Link>
+                </LinkContainer>
+              </>
+            )}
+
+            {/* ALUNO */}
+            {token && isAluno && (
+              <>
+                <LinkContainer to="/perfil-aluno">
+                  <Nav.Link>Perfil do Aluno</Nav.Link>
+                </LinkContainer>
+
+                <LinkContainer to="/aulas">
+                  <Nav.Link>Aulas</Nav.Link>
+                </LinkContainer>
+              </>
+            )}
+
           </Nav>
-          <LinkContainer to="/perfil-aluno">
-            <Nav.Link>Perfil do Aluno</Nav.Link>
-          </LinkContainer>
-        <LinkContainer to="/materias">
-          <Nav.Link>Matérias</Nav.Link>
-        </LinkContainer>
+
+          {/* LINKS À DIREITA */}
           <Nav>
-            <LinkContainer to="/login">
-              <Nav.Link>Login</Nav.Link>
-            </LinkContainer>
+
+            {!token ? (
+              <LinkContainer to="/login">
+                <Nav.Link>Login</Nav.Link>
+              </LinkContainer>
+            ) : (
+              <Nav.Link onClick={logout} style={{ cursor: "pointer" }}>
+                Logout
+              </Nav.Link>
+            )}
+
           </Nav>
-          <Nav>
-            <LinkContainer to="/login">
-              <Nav.Link>Cadastro Materia</Nav.Link>
-            </LinkContainer>
-          </Nav>
+
         </Navbar.Collapse>
       </Container>
     </Navbar>

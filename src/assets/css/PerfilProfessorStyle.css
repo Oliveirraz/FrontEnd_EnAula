@@ -1,26 +1,27 @@
 /* CONTAINER */
 .professor-containerperfil {
-  min-height: 100vh;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
+   min-height: auto; /* deixa crescer só com o conteúdo */
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* centraliza o card horizontalmente */
+  padding: 32px 16px;
+  box-sizing: border-box;
 }
+
 
 /* CARD */
 .professorPerfil-card {
   width: 1100px;
-  max-height: 88vh;
   background-color: rgba(26, 109, 101, 0.88);
   backdrop-filter: blur(4px);
   border-radius: 14px;
   padding: 24px;
+  padding-right: 40px;
   color: #ffffff;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
   position: relative;
 }
+
 
 /* BOTÃO LOGOUT */
 .professor-btn-logout {
@@ -41,6 +42,7 @@
   transform: scale(1.1);
 }
 
+
 /* FOTO */
 .professor-foto {
   width: 140px;
@@ -48,7 +50,7 @@
   border-radius: 50%;
   object-fit: cover;
   display: block;
-  margin: 0 auto 12px;
+  margin: 0 auto 12px; /* centraliza horizontalmente e dá espaçamento abaixo */
 }
 
 /* UPLOAD */
@@ -57,7 +59,8 @@
   text-align: center;
   font-size: 14px;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
+  width: 10%;
 }
 
 /* CONTEÚDO PRINCIPAL */
@@ -66,9 +69,12 @@
   gap: 20px;
 }
 
+
+
 /* COLUNA ESQUERDA */
 .professor-perfil {
   width: 360px;
+  margin-top: 16px;
 }
 
 /* INPUTS */
@@ -83,7 +89,7 @@
 /* BOTÕES */
 .professor-btn-salvar,
 .professor-btn-excluir,
-.professor-btn-materias {
+.professor-btn-materias{
   width: 100%;
   margin-top: 10px;
   padding: 12px;
@@ -97,12 +103,13 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+
 .professor-btn-salvar {
   background: linear-gradient(135deg, #1abc9c, #0f766e);
 }
 
 .professor-btn-excluir {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: linear-gradient(135deg, #f0321d, #dd0f0ffd);
 }
 
 .professor-btn-materias {
@@ -116,22 +123,39 @@
   opacity: 0.95;
 }
 
+.professor-btn-disponibilidade {
+  background-color: #4f46e5;
+  color: white;
+}
+
+
+/* Hover igual aos outros */
+.professor-btn-disponibilidade:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+
 /* COLUNA DIREITA (MATÉRIAS + AULAS) */
 .professor-direita {
   flex: 1;
   display: flex;
   gap: 16px;
+  padding-top: 40px;
 }
+
 
 /* BLOCOS MATÉRIAS / AULAS */
 .professor-materias {
-  flex: 1;
+  flex: 0 0 50%; /* ocupa metade da largura */
   background-color: rgba(255, 255, 255, 0.12);
   border-radius: 10px;
   padding: 12px;
   display: flex;
   flex-direction: column;
+  margin-top: 0px; /* ajusta a distância do topo */
 }
+
 
 /* TÍTULO */
 .professor-titulo {
@@ -159,3 +183,77 @@
   font-size: 14px;
   opacity: 0.85;
 }
+
+/* HOVER NAS MATÉRIAS */
+.professor-aula-hover {
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.professor-aula-hover:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.professor-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.professor-btn-disponibilidade {
+  background-color: #2563eb;
+  color: white;
+}
+
+.professor-btn-aula {
+  background-color: #059669;
+  color: white;
+}
+
+.professor-acoes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.professor-acoes-grid .acao {
+  background-color: rgba(255, 255, 255, 0.12);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 6px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 18px;
+  transition: all 0.25s ease;
+}
+
+.professor-acoes-grid .acao span {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.professor-acoes-grid .acao:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+}
+
+
+/* Cores por ação */
+.acao.salvar { background-color: rgba(16, 185, 129, 0.4); }
+.acao.materias { background-color: rgba(59, 130, 246, 0.4); }
+.acao.disponibilidade { background-color: rgba(99, 102, 241, 0.4); }
+.acao.aula { background-color: rgba(5, 150, 105, 0.4); }
+.acao.excluir { background-color: rgba(239, 68, 68, 0.45); }
+
+
+
+
+

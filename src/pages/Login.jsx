@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginAluno } from "../services/AlunoService";
+import { loginAluno } from "../services/alunoservice";
 import { loginProfessor } from "../services/professorService";
+import { useAuth } from "../context/AuthContext";
+
 import loginTela from "../assets/imagens/loginTela.png";
 import "../assets/css/LoginStyle.css";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [form, setForm] = useState({
     email: "",
@@ -23,25 +26,32 @@ function Login() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      let usuario;
+  try {
+    let token;
 
-      if (tipo === "aluno") {
-        usuario = await loginAluno(form.email, form.senha);
-        localStorage.setItem("alunoLogado", JSON.stringify(usuario));
-        navigate("/perfil-aluno");
-      } else {
-        usuario = await loginProfessor(form.email, form.senha);
-        localStorage.setItem("professorLogado", JSON.stringify(usuario));
-        navigate("/perfil-professor");
-      }
-
-    } catch (error) {
-      alert("Email ou senha inválidos");
+    if (tipo === "aluno") {
+      token = await loginAluno(form.email, form.senha);
+    } else {
+      token = await loginProfessor(form.email, form.senha);
     }
+
+    // token já é string
+    login(token);
+
+    if (tipo === "aluno") {
+      navigate("/perfil-aluno");
+    } else {
+      navigate("/perfil-professor");
+    }
+
+  } catch (error) {
+    alert("Email ou senha inválidos");
   }
+}
+
+
 
   return (
     <div
