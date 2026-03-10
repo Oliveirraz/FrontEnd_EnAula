@@ -20,7 +20,11 @@ function Materia() {
 
     async function carregarMateria() {
       try {
-        const response = await api.get(`/materias/${id}`);
+        // CARREGAR (edição) — busca as do professor logado e filtra por id
+        const resp = await api.get("/materias/professor/me")
+        const materia = resp.data.find(m => m.id === Number(id))
+        setNome(materia.nome)
+        setDescricao(materia.descricao)
         setNome(response.data.nome);
         setDescricao(response.data.descricao);
       } catch (error) {
@@ -41,11 +45,9 @@ function Materia() {
         return;
       }
 
-      await api.post("/materias", {
-        nome,
-        descricao,
-        professorId: professorLogado.id,
-      });
+      // CRIAR
+      await 
+      api.post("/materias/professor/me", { nome, descricao })
 
       alert("Matéria cadastrada com sucesso!");
       navigate("/perfil-professor");
@@ -61,7 +63,9 @@ function Materia() {
     setLoading(true);
 
     try {
-      await api.put(`/materias/${id}`, { nome, descricao });
+      // ATUALIZAR
+      await 
+      api.put(`/materias/professor/me/${id}`, { nome, descricao })
       alert("Matéria atualizada com sucesso!");
       navigate("/perfil-professor");
     } catch (error) {
@@ -83,11 +87,8 @@ function Materia() {
       return;
     }
 
-    await api.delete(`/materias/${id}`, {
-      data: {
-        professorId: professorLogado.id,
-      },
-    });
+    // DELETAR
+    await api.delete(`/materias/professor/me/${id}`)
 
     alert("Matéria excluída com sucesso!");
     navigate("/perfil-professor");

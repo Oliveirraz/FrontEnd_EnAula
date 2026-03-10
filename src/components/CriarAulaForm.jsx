@@ -27,16 +27,17 @@ function CriarAulaForm({
       </label>
 
       <label>
-        Valor da aula (R$/hora)
-        <input
-          type="number"
-          step="0.01"
-          name="valorHoraAula"
-          value={form.valorHoraAula}
-          onChange={onChange}
-          required
-        />
-      </label>
+      Valor da aula (R$/hora)
+      <input
+        type="number"
+        step="0.01"
+        min="0"
+        name="valorHora"
+        value={form.valorHora}
+        onChange={onChange}
+        required
+      />
+    </label>
 
       <label>
         Quantidade máxima de alunos

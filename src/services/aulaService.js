@@ -1,94 +1,45 @@
-// services/aulaService.js
 import api from "./api";
 
-// ================== CRIAR AULA ==================
+// CRIAR aula (professor logado)
 export async function criarAula(dados) {
-  const response = await api.post("/aulas", dados);
+  const response = await api.post("/aulas/professor/me", dados);
   return response.data;
 }
 
-// ================== LISTAR AULAS (PAGINADO + BUSCA) ==================
+// LISTAR aulas para alunos (paginado + busca por matéria ou professor)
 export async function listarAulas(page = 0, size = 12, termo = "") {
   const response = await api.get("/aulas", {
-    params: {
-      page,
-      size,
-      termo: termo || undefined,
-    },
+    params: { page, size, termo: termo || undefined },
   });
-
   return response.data;
 }
 
-// ================== LISTAR AULAS POR PROFESSOR ==================
-export async function listarAulasPorProfessor(
-  professorId,
-  page = 0,
-  size = 12
-) {
-  const response = await api.get("/aulas", {
-    params: {
-      professorId,
-      page,
-      size,
-    },
-  });
-
+// LISTAR aulas do professor logado (paginado)
+export async function listarAulasProfessorLogado(page = 0, size = 12) {
+  const response = await api.get("/aulas/professor/me", { params: { page, size } });
   return response.data;
-  /*
-    Retorna Page:
-    {
-      content,
-      totalPages,
-      totalElements,
-      number,
-      size,
-      first,
-      last
-    }
-  */
 }
 
-// ================== BUSCAR AULA POR ID ==================
+// BUSCAR aula por ID (professor logado)
 export async function buscarAulaPorId(id) {
-  const response = await api.get(`/aulas/${id}`);
+  const response = await api.get(`/aulas/professor/me/${id}`);
   return response.data;
 }
 
-// ================== ATUALIZAR AULA ==================
-// services/aulaService.js
+// ATUALIZAR aula (professor logado)
 export async function atualizarAula(id, dados) {
-  const response = await api.put(`/aulas/${id}`, {
-    data: dados.data,
-    horaInicio: dados.horaInicio,
-    horaFim: dados.horaFim,
-    local: dados.local,
-    valorHora: dados.valorHora,
-    capacidadeMaxima: dados.capacidadeMaxima,
-    idMateria: dados.idMateria,
-    idProfessor: dados.idProfessor,
-    alunosIds: dados.alunosIds ?? []
-  });
-
+  const response = await api.put(`/aulas/professor/me/${id}`, dados);
   return response.data;
 }
 
-
-
-// ================== DELETAR AULA ==================
+// DELETAR aula (professor logado)
 export async function deletarAula(id) {
-  await api.delete(`/aulas/${id}`);
+  await api.delete(`/aulas/professor/me/${id}`);
 }
 
-// ================== MATRICULAR ALUNO ==================
+// MATRICULAR aluno em uma aula
 export async function matricularAluno(aulaId, alunoId) {
-  if (!alunoId) {
-    throw new Error("ID do aluno não fornecido");
-  }
-
-  const response = await api.post(
-    `/aulas/${aulaId}/matricular/${alunoId}`
-  );
-
+  if (!alunoId) throw new Error("ID do aluno não fornecido");
+  const response = await api.post(`/aulas/${aulaId}/matricular/${alunoId}`);
   return response.data;
 }
