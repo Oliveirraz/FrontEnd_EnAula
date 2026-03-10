@@ -21,36 +21,28 @@ function PerfilProfessor() {
   const [aulas, setAulas] = useState([]);
 
   useEffect(() => {
-    async function carregarDados() {
-      const professorSalvo = localStorage.getItem("professorLogado");
-
-      if (!professorSalvo) {
-        navigate("/login");
-        return;
-      }
-
-      const prof = JSON.parse(professorSalvo);
+  async function carregarDados() {
+    try {
+      // Busca professor logado via token JWT
+      const resp = await api.get("/professores/me");
+      const prof = resp.data;
       setProfessor(prof);
 
-      try {
-        const materiasResp = await api.get(
-          `/professores/${prof.id}/materias`
-        );
-        setMaterias(materiasResp.data);
+      // Matérias do professor logado
+      const materiasResp = await api.get("/materias/professor/me");
+      setMaterias(materiasResp.data);
 
-        const aulasResp = await api.get("/aulas", {
-        params: { professorId: prof.id }
-      });
+      // Aulas do professor logado
+      const aulasResp = await api.get("/aulas/professor/me");
+      setAulas(aulasResp.data.content);
 
-setAulas(aulasResp.data.content); // 👈 AQUI
-
-      } catch (error) {
-        console.error(error);
-      }
+    } catch (error) {
+      console.error(error);
+      navigate("/login");
     }
-
-    carregarDados();
-  }, [navigate]);
+  }
+  carregarDados();
+}, [navigate]);
 
   async function handleSalvar(dadosAtualizados) {
     const professorAtualizado = await atualizarProfessor(
@@ -60,16 +52,7 @@ setAulas(aulasResp.data.content); // 👈 AQUI
 
     setProfessor(professorAtualizado);
 
-    localStorage.setItem(
-      "professorLogado",
-      JSON.stringify({
-        id: professorAtualizado.id,
-        nome: professorAtualizado.nome,
-        email: professorAtualizado.email,
-        foto: professorAtualizado.foto,
-        valorHoraAula: professorAtualizado.valorHoraAula,
-      })
-    );
+   
 
     alert("Dados atualizados com sucesso!");
   }

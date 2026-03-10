@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginAluno } from "../services/alunoservice";
 import { loginProfessor } from "../services/professorService";
 import { useAuth } from "../context/AuthContext";
-
+import api from "../services/api";
 import loginTela from "../assets/imagens/loginTela.png";
 import "../assets/css/LoginStyle.css";
 
@@ -27,7 +27,6 @@ function Login() {
 
   async function handleSubmit(e) {
   e.preventDefault();
-
   try {
     let token;
 
@@ -37,12 +36,17 @@ function Login() {
       token = await loginProfessor(form.email, form.senha);
     }
 
-    // token já é string
-    login(token);
+    login(token); // salva token no AuthContext/localStorage
 
     if (tipo === "aluno") {
+      // busca dados do aluno e salva
+      const resp = await api.get("/alunos/me");
+      localStorage.setItem("alunoLogado", JSON.stringify(resp.data));
       navigate("/perfil-aluno");
     } else {
+      // busca dados do professor e salva
+      const resp = await api.get("/professores/me");
+      localStorage.setItem("professorLogado", JSON.stringify(resp.data));
       navigate("/perfil-professor");
     }
 
