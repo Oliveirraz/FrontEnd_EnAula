@@ -32,13 +32,6 @@ function NavBar() {
                   <Nav.Link>Perfil do Professor</Nav.Link>
                 </LinkContainer>
 
-                <LinkContainer to="/materias">
-                  <Nav.Link>Matérias</Nav.Link>
-                </LinkContainer>
-
-                <LinkContainer to="/professor/aulas/nova">
-                  <Nav.Link>Criar Aula</Nav.Link>
-                </LinkContainer>
               </>
             )}
 
@@ -47,10 +40,6 @@ function NavBar() {
               <>
                 <LinkContainer to="/perfil-aluno">
                   <Nav.Link>Perfil do Aluno</Nav.Link>
-                </LinkContainer>
-
-                <LinkContainer to="/aulas">
-                  <Nav.Link>Aulas</Nav.Link>
                 </LinkContainer>
               </>
             )}
