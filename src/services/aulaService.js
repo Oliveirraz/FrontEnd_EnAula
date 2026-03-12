@@ -31,8 +31,7 @@ export async function deletarAula(id) {
   await api.delete(`/aulas/professor/me/${id}`);
 }
 
-export async function matricularAluno(aulaId, alunoId) {
-  if (!alunoId) throw new Error("ID do aluno não fornecido");
-  const response = await api.post(`/aulas/${aulaId}/matricular/${alunoId}`);
+export async function matricularAluno(aulaId) {
+  const response = await api.post(`/aulas/${aulaId}/matricular`);
   return response.data;
 }

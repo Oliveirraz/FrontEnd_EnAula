@@ -45,17 +45,15 @@ function PerfilProfessor() {
 }, [navigate]);
 
   async function handleSalvar(dadosAtualizados) {
-    const professorAtualizado = await atualizarProfessor(
-      professor.id,
-      dadosAtualizados
-    );
-
+  try {
+    const professorAtualizado = await atualizarProfessor(dadosAtualizados, null);
     setProfessor(professorAtualizado);
-
-   
-
     alert("Dados atualizados com sucesso!");
+  } catch (error) {
+    console.error("Erro ao salvar:", error.response?.data || error.message);
+    alert("Erro ao atualizar dados.");
   }
+}
 
   async function handleExcluir() {
     if (!window.confirm("Tem certeza que deseja excluir sua conta?")) return;

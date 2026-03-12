@@ -21,12 +21,20 @@ export const loginProfessor = async (email, senha) => {
 //  Atualizar professor (JSON)
 export const atualizarProfessor = async (dadosProfessor, foto) => {
   const formData = new FormData();
-  formData.append("professor", new Blob([JSON.stringify(dadosProfessor)], { type: "application/json" }));
-  if (foto) formData.append("foto", foto);
+
+  formData.append(
+    "professor",
+    new Blob([JSON.stringify(dadosProfessor)], { type: "application/json" })
+  );
+
+  if (foto) {
+    formData.append("foto", foto);
+  }
 
   const response = await api.put("/professores/me", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+
   return response.data;
 };
 

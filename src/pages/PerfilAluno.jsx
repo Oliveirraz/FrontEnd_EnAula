@@ -230,10 +230,7 @@ function PerfilAluno() {
 
                     <p>
                       Professor:{" "}
-                      <Link
-                        to={`/perfil-professor/${aula.idProfessor}`}
-                        className="aluno-professor"
-                      >
+                      <Link to={`/professor/${aula.idProfessor}`} className="aluno-professor">
                         {aula.nomeProfessor}
                       </Link>
                     </p>

@@ -39,11 +39,13 @@ function Login() {
     login(token); // salva token no AuthContext/localStorage
 
     if (tipo === "aluno") {
-      // busca dados do aluno e salva
-      const resp = await api.get("/alunos/me");
-      localStorage.setItem("alunoLogado", JSON.stringify(resp.data));
-      navigate("/perfil-aluno");
-    } else {
+    token = await loginAluno(form.email, form.senha);
+    login(token);
+    // busca dados do aluno e salva no localStorage
+    const resp = await api.get("/alunos/me");
+    localStorage.setItem("alunoLogado", JSON.stringify(resp.data));
+    navigate("/perfil-aluno");
+  } else {
       // busca dados do professor e salva
       const resp = await api.get("/professores/me");
       localStorage.setItem("professorLogado", JSON.stringify(resp.data));

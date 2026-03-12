@@ -18,6 +18,7 @@ import Materias from "./pages/Materias";
 import CadastroMateria from "./pages/CadastroMateria";
 import CriarAula from "./pages/CriarAula";
 import ProfessorAulaDetalhe from "./pages/Professor/ProfessorAulaDetalhe";
+import PerfilProfessorPublico from "./pages/PerfilProfessorPublico";
 
 // 🔹 ALUNO
 import ListaAulas from "./pages/ListaAulas";
@@ -41,6 +42,7 @@ function App() {
             <Route path="/cadastro" element={<CreateUser />} />
             <Route path="/cadastro-professor" element={<CadastroProfessor />} />
             <Route path="/cadastro-aluno" element={<CadastroAluno />} />
+            
 
             {/* ROTAS PROTEGIDAS (LOGIN) */}
             <Route element={<PrivateRoute />}>
@@ -116,6 +118,16 @@ function App() {
                 element={
                   <ProtectedRoute roles={["ROLE_ALUNO"]}>
                     <ListaAulas />
+                  </ProtectedRoute>
+                }
+              />
+
+              // dentro do bloco de rotas protegidas do aluno:
+              <Route
+                path="/professor/:id"
+                element={
+                  <ProtectedRoute roles={["ROLE_ALUNO"]}>
+                    <PerfilProfessorPublico />
                   </ProtectedRoute>
                 }
               />

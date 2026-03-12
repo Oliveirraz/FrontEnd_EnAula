@@ -5,18 +5,11 @@ import { listarAulas, matricularAluno } from "../services/aulaService";
 function ListaAulas() {
   const [aulas, setAulas] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [pagina, setPagina] = useState(0);
   const [totalPaginas, setTotalPaginas] = useState(0);
-
   const [busca, setBusca] = useState("");
-  const [termo, setTermo] = useState(""); // termo enviado ao backend
+  const [termo, setTermo] = useState("");
 
-  // 🔹 Obter ID do aluno logado do localStorage
-  const alunoLogado = JSON.parse(localStorage.getItem("alunoLogado"));
-  const idAlunoLogado = alunoLogado?.id;
-
-  // 🔹 CARREGAR AULAS
   useEffect(() => {
     async function carregarAulas() {
       setLoading(true);
@@ -33,7 +26,6 @@ function ListaAulas() {
     carregarAulas();
   }, [pagina, termo]);
 
-  // 🔍 MANEJAR INPUT
   function handleBuscaChange(e) {
     setBusca(e.target.value);
   }
@@ -45,31 +37,24 @@ function ListaAulas() {
     }
   }
 
-  // 🔹 MATRICULAR ALUNO
   async function handleMatricular(aulaId) {
-    if (!idAlunoLogado) {
-      alert("Aluno não logado! Faça login novamente.");
-      return;
-    }
-
     try {
       setLoading(true);
-      await matricularAluno(aulaId, idAlunoLogado);
+      // ✅ sem alunoId — backend pega pelo token JWT
+      await matricularAluno(aulaId);
       alert("Matriculado com sucesso!");
       const pageData = await listarAulas(pagina, 12, termo);
       setAulas(pageData.content);
       setTotalPaginas(pageData.totalPages);
     } catch (error) {
       console.error("Erro ao matricular", error);
-      alert("Erro ao matricular: " + error.response?.data?.message || error.message);
+      alert(error.response?.data?.message || "Erro ao matricular.");
     } finally {
       setLoading(false);
     }
   }
 
-  if (loading) {
-    return <p>Carregando aulas...</p>;
-  }
+  if (loading) return <p>Carregando aulas...</p>;
 
   return (
     <div className="lista-aulas-container">
@@ -92,7 +77,7 @@ function ListaAulas() {
             <h3>{aula.nomeMateria}</h3>
             <p className="descricao">{aula.descricaoMateria}</p>
             <p><strong>Professor:</strong> {aula.nomeProfessor}</p>
-            <p><strong>Valor/Hora:</strong> R$ {aula.valorHora}</p>
+            <p><strong>Valor/Hora:</strong> R$ {aula.valorHora ?? "Não informado"}</p>
             <p><strong>Data:</strong> {aula.data}</p>
             <p><strong>Horário:</strong> {aula.horaInicio} às {aula.horaFim}</p>
             <p><strong>Local:</strong> {aula.local}</p>
