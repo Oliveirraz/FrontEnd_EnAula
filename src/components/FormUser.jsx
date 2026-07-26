@@ -6,7 +6,6 @@ function FormUser() {
     nome: "",
     email: "",
     senha: "",
-    materiasIDs: [], // obrigatório pelo DTO
   });
 
   const [foto, setFoto] = useState(null);

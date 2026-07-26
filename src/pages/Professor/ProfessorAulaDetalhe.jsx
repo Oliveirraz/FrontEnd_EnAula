@@ -56,24 +56,23 @@ export default function ProfessorAulaDetalhe() {
   }
 
   async function handleSalvar() {
-    try {
-      await atualizarAula(aula.id, {
-        data: aula.data,
-        horaInicio: aula.horaInicio,
-        horaFim: aula.horaFim,
-        local: aula.local || "Não informado",
-        valorHora: aula.valorHora,
-        capacidadeMaxima: aula.capacidadeMaxima,
-        idMateria: aula.idMateria,
-        alunosIds: [],
-      });
-      alert("Aula atualizada com sucesso!");
-      navigate("/perfil-professor");
-    } catch (error) {
-      console.error("Erro ao atualizar:", error.response?.data || error.message);
-      alert("Erro ao atualizar aula.");
-    }
+  try {
+    await atualizarAula(aula.id, {
+      data: aula.data,
+      horaInicio: aula.horaInicio,
+      horaFim: aula.horaFim,
+      local: aula.local || "Não informado",
+      valorHora: aula.valorHora,
+      capacidadeMaxima: aula.capacidadeMaxima,
+      idMateria: aula.idMateria,
+    });
+    alert("Aula atualizada com sucesso!");
+    navigate("/perfil-professor");
+  } catch (error) {
+    console.error("Erro ao atualizar:", error.response?.data || error.message);
+    alert("Erro ao atualizar aula.");
   }
+}
 
   async function handleExcluir() {
     if (!window.confirm("Deseja realmente excluir esta aula?")) return;

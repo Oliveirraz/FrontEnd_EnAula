@@ -5,7 +5,7 @@ import api from "../../services/api";
 import {
   atualizarProfessor,
   deletarProfessor,
-} from "../../services/professorService";
+} from "../../services/professorservice";
 
 import ProfessorPerfilForm from "../../components/ProfessorPerfilForm";
 import ProfessorMaterias from "./ProfessorMaterias";
@@ -58,7 +58,7 @@ function PerfilProfessor() {
   async function handleExcluir() {
     if (!window.confirm("Tem certeza que deseja excluir sua conta?")) return;
 
-    await deletarProfessor(professor.id);
+    await deletarProfessor();
     localStorage.removeItem("professorLogado");
     navigate("/login");
   }
@@ -74,10 +74,7 @@ return (
   <div className="professor-containerPerfil">
     <div className="professorPerfil-card">
 
-      {/* BOTÃO SAIR */}
-      <button className="professor-btn-logout" onClick={handleLogout}>
-        ⎋
-      </button>
+      
 
       {/* FOTO CENTRAL NO TOPO DO CARD */}
       <div className="professor-foto-topo">

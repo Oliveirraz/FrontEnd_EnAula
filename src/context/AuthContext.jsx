@@ -6,12 +6,16 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [userRoles, setUserRoles] = useState([]);
+  const [carregando, setCarregando] = useState(true); // 👈 novo
 
   // 🔄 Carrega token salvo (SE for válido)
   useEffect(() => {
     const tokenSalvo = localStorage.getItem("token");
 
-    if (!tokenSalvo) return;
+    if (!tokenSalvo) {
+      setCarregando(false); // 👈 nada salvo, libera a checagem
+      return;
+    }
 
     try {
       if (tokenSalvo.split(".").length !== 3) {
@@ -25,6 +29,8 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.warn("Token inválido no storage, removendo...");
       localStorage.removeItem("token");
+    } finally {
+      setCarregando(false); // 👈 sempre libera no final
     }
   }, []);
 
@@ -56,7 +62,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, userRoles, login, logout }}>
+    <AuthContext.Provider value={{ token, userRoles, login, logout, carregando }}>
       {children}
     </AuthContext.Provider>
   );

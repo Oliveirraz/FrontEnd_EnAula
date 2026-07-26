@@ -38,15 +38,8 @@ export const atualizarProfessor = async (dadosProfessor, foto) => {
   return response.data;
 };
 
-// Deletar professor
-export const deletarProfessor = async (id) => {
-  const response = await api.delete(`/professores/${id}`);
-  return response.data;
+// Deletar professor logado (sempre via /me, usando o token JWT)
+export const deletarProfessor = async () => {
+  await api.delete("/professores/me");
 };
 
-
-// 🔹 BUSCAR MATÉRIAS DO PROFESSOR
-export async function listarMateriasDoProfessor(professorId) {
-  const response = await api.get(`/professores/${professorId}/materias`);
-  return response.data;
-}

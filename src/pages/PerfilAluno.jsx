@@ -20,6 +20,7 @@ function PerfilAluno() {
   // 🔥 AULAS DO ALUNO
   const [aulas, setAulas] = useState([]);
   const [loadingAulas, setLoadingAulas] = useState(true);
+  const [aulaAtiva, setAulaAtiva] = useState(null);
 
   /* =========================
      🔐 BUSCAR ALUNO LOGADO
@@ -219,35 +220,54 @@ function PerfilAluno() {
                 <p>Carregando aulas...</p>
               ) : aulas.length > 0 ? (
                 aulas.map((aula) => (
-                  <div className="aluno-aula" key={aula.id}>
-                    <strong>{aula.nomeMateria}</strong>
+  <div className="aluno-aula" key={aula.id}>
+    <strong>{aula.nomeMateria}</strong>
 
-                    {aula.descricaoMateria && (
-                      <p className="aluno-assunto">
-                        📘 Assunto: {aula.descricaoMateria}
-                      </p>
-                    )}
+    {aula.descricaoMateria && (
+      <p className="aluno-assunto">
+        📘 Assunto: {aula.descricaoMateria}
+      </p>
+    )}
 
-                    <p>
-                      Professor:{" "}
-                      <Link to={`/professor/${aula.idProfessor}`} className="aluno-professor">
-                        {aula.nomeProfessor}
-                      </Link>
-                    </p>
+    <p>
+      Professor:{" "}
+      <Link
+        to={`/professor/${aula.idProfessor}`}
+        className="aluno-professor"
+      >
+        {aula.nomeProfessor}
+      </Link>
+    </p>
 
-                    <p>
-                      📅 {aula.data} | ⏰ {aula.horaInicio} - {aula.horaFim}
-                    </p>
+    <p>
+      📅 {aula.data} | ⏰ {aula.horaInicio} - {aula.horaFim}
+    </p>
 
-                    <p>📍 {aula.local}</p>
-                  </div>
-                ))
+    <p>📍 {aula.local}</p>
+
+    {aulaAtiva === aula.id ? (
+      <JitsiMeet
+        aulaId={aula.id}
+        userName={aluno.nome}
+        onClose={() => setAulaAtiva(null)}
+      />
+    ) : (
+      <button
+        className="aluno-btn-materias"
+        onClick={() => setAulaAtiva(aula.id)}
+      >
+        📹 Entrar na Aula
+      </button>
+    )}
+  </div>
+))
               ) : (
                 <p className="aluno-sem-materias">
                   Você ainda não está matriculado em nenhuma aula.
                 </p>
               )}
             </div>
+            
           </div>
 
         </div>
