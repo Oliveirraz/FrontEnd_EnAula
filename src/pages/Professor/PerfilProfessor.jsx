@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../assets/css/PerfilProfessorStyle.css";
+import "../../assets/css/Professor/PerfilProfessorStyle.css";
 import api from "../../services/api";
-import {
-  atualizarProfessor,
-  deletarProfessor,
-} from "../../services/professorservice";
-
-import ProfessorPerfilForm from "../../components/ProfessorPerfilForm";
+import { atualizarProfessor, deletarProfessor,} from "../../services/professorservice";
+import ProfessorPerfilForm from "../../components/Professor/ProfessorPerfilForm";
 import ProfessorMaterias from "./ProfessorMaterias";
 import ProfessorAulas from "./ProfessorAulas";
 
@@ -73,9 +69,6 @@ function PerfilProfessor() {
 return (
   <div className="professor-containerPerfil">
     <div className="professorPerfil-card">
-
-      
-
       {/* FOTO CENTRAL NO TOPO DO CARD */}
       <div className="professor-foto-topo">
         <img

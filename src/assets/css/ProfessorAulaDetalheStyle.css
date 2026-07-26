@@ -76,17 +76,6 @@
   transition: all 0.2s ease;
 }
 
-/* BOTÃO SALVAR */
-.professor-aula-acoes .salvar {
-  background: #2ecc71;
-  color: #fff;
-  
-}
-
-.professor-aula-acoes .salvar:hover {
-  background: #27ae60;
-}
-
 /* BOTÃO VOLTAR */
 .professor-aula-acoes .voltar {
   background: #bdc3c7;
@@ -134,10 +123,3 @@
 .professor-aula-form .salvar:hover {
   background: #27ae60;
 }
-
-.professor-acoes-grid .voltar{
-  padding-top: 10px;
-}
-
-
-
