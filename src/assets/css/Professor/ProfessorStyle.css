@@ -2,7 +2,7 @@
 .professor-container {
   height: 100vh;
   width: 100%;
-  background-image: url('../imagens/cadastroProfessorTela.png'); /* imagem aqui */
+  background-image: url('../../imagens/cadastroProfessorTela.png');
   background-size: 110% auto; /* ajusta largura/altura */
   background-position: 120px center;
   background-repeat: no-repeat;

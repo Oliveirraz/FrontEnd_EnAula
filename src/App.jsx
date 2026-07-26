@@ -6,7 +6,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 
 import Login from "./pages/Login";
 import CreateUser from "./pages/CreateUser";
-import CadastroProfessor from "./pages/CadastroProfessor";
+import CadastroProfessor from "./pages/Professor/CadastroProfessor";
 import CadastroAluno from "./pages/CadastroAluno";
 
 // 🔹 PERFIS

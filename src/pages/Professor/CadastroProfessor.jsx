@@ -1,9 +1,9 @@
 // src/pages/CadastroProfessor.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { cadastrarProfessor } from "../services/professorservice";
-import professorTela from "../assets/imagens/cadastroProfessorTela.png";
-import "../assets/css/ProfessorStyle.css"; // Reaplicando o CSS do aluno
+import { cadastrarProfessor } from "../../services/professorservice";
+import professorTela from "../../assets/imagens/cadastroProfessorTela.png";
+import "../../assets/css/Professor/ProfessorStyle.css";
 
 function CadastroProfessor() {
   const navigate = useNavigate();
