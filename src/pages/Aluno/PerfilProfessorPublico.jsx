@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../services/api";
-import "../assets/css/PerfilAlunoStyle.css";
+import api from "../../services/api";
+import "../../assets/css/Aluno/PerfilAlunoStyle.css";
 
 export default function PerfilProfessorPublico() {
   const { id } = useParams();
@@ -22,7 +22,7 @@ export default function PerfilProfessorPublico() {
         setAulas(aulasResp.data.content ?? []);
       } catch (error) {
         console.error("Erro ao carregar perfil do professor:", error);
-        navigate(-1);
+        navigate(-1);   // 👈 AQUI
       } finally {
         setLoading(false);
       }

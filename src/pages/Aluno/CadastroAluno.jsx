@@ -1,6 +1,6 @@
-import "../assets/css/AlunoStyle.css";
-import alunoTela from "../assets/imagens/cadastroAlunoTela.png";
-import FormUser from "../components/FormUser";
+import "../../assets/css/Aluno/AlunoStyle.css";
+import alunoTela from "../../assets/imagens/cadastroAlunoTela.png";
+import FormUser from "../../components/Aluno/FormUser";
 
 function CadastroAluno() {
   return (

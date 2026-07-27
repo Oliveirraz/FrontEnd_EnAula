@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../assets/css/PerfilAlunoStyle.css";
+import "../../assets/css/Aluno/PerfilAlunoStyle.css";
 import {
   atualizarAluno,
   deletarAluno,
-} from "../services/alunoservice";
-import api from "../services/api";
+} from "../../services/alunoservice";
+import api from "../../services/api";
 
 function PerfilAluno() {
   const navigate = useNavigate();

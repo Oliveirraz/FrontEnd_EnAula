@@ -7,18 +7,18 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import Login from "./pages/Login";
 import CreateUser from "./pages/CreateUser";
 import CadastroProfessor from "./pages/Professor/CadastroProfessor";
-import CadastroAluno from "./pages/CadastroAluno";
+import CadastroAluno from "./pages/Aluno/CadastroAluno";
 
 // 🔹 PERFIS
 import PerfilProfessor from "./pages/Professor/PerfilProfessor";
-import PerfilAluno from "./pages/PerfilAluno";
+import PerfilAluno from "./pages/Aluno/PerfilAluno";
 
 // 🔹 PROFESSOR
 import Materias from "./pages/Materias";
 import CadastroMateria from "./pages/CadastroMateria";
 import CriarAula from "./pages/CriarAula";
 import ProfessorAulaDetalhe from "./pages/Professor/ProfessorAulaDetalhe";
-import PerfilProfessorPublico from "./pages/PerfilProfessorPublico";
+import PerfilProfessorPublico from "./pages/Aluno/PerfilProfessorPublico";
 
 // 🔹 ALUNO
 import ListaAulas from "./pages/ListaAulas";
