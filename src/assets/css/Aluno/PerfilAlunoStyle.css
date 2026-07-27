@@ -157,3 +157,16 @@
   opacity: 0.85;
   margin-top: 4px;
 }
+
+/* LINK DO PROFESSOR DENTRO DA AULA */
+.aluno-professor {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+}
+
+.aluno-professor:hover {
+  opacity: 0.8;
+  color: #04e70f;
+}

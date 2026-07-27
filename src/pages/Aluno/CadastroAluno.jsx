@@ -5,7 +5,7 @@ import FormUser from "../../components/Aluno/FormUser";
 function CadastroAluno() {
   return (
     <div
-      className="aluno-container"
+      className="cadastro-aluno-container"
       style={{ backgroundImage: `url(${alunoTela})` }}
     >
       <div className="aluno-card">

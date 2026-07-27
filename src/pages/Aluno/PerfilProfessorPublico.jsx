@@ -22,7 +22,7 @@ export default function PerfilProfessorPublico() {
         setAulas(aulasResp.data.content ?? []);
       } catch (error) {
         console.error("Erro ao carregar perfil do professor:", error);
-        navigate(-1);   // 👈 AQUI
+        navigate(-1);
       } finally {
         setLoading(false);
       }

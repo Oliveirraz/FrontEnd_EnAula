@@ -6,24 +6,25 @@ import {
   deletarAluno,
 } from "../../services/alunoservice";
 import api from "../../services/api";
+import JitsiMeet from "../../components/JitsiMeet";
 
 function PerfilAluno() {
   const navigate = useNavigate();
 
   const [aluno, setAluno] = useState(null);
   const [foto, setFoto] = useState(null);        // preview / base64 vinda do backend
-  const [fotoFile, setFotoFile] = useState(null); // 🔥 arquivo REAL
+  const [fotoFile, setFotoFile] = useState(null); //  arquivo REAL
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  // 🔥 AULAS DO ALUNO
+  //  AULAS DO ALUNO
   const [aulas, setAulas] = useState([]);
   const [loadingAulas, setLoadingAulas] = useState(true);
   const [aulaAtiva, setAulaAtiva] = useState(null);
 
   /* =========================
-     🔐 BUSCAR ALUNO LOGADO
+      BUSCAR ALUNO LOGADO
   ========================= */
   useEffect(() => {
     buscarAlunoLogado();
@@ -49,7 +50,7 @@ function PerfilAluno() {
   }
 
   /* =========================
-     📚 AULAS DO ALUNO
+      AULAS DO ALUNO
   ========================= */
   async function buscarAulasDoAluno() {
     try {
@@ -63,18 +64,18 @@ function PerfilAluno() {
   }
 
   /* =========================
-     📸 FOTO (ARQUIVO REAL)
+      FOTO (ARQUIVO REAL)
   ========================= */
   function handleFotoUpload(e) {
     const arquivo = e.target.files[0];
     if (!arquivo) return;
 
-    setFotoFile(arquivo); // 🔥 importante
+    setFotoFile(arquivo); //  importante
     setFoto(URL.createObjectURL(arquivo)); // preview
   }
 
   /* =========================
-     💾 SALVAR DADOS
+      SALVAR DADOS
   ========================= */
   async function handleSalvar() {
     try {
@@ -112,7 +113,7 @@ function PerfilAluno() {
   }
 
   /* =========================
-     ❌ EXCLUIR CONTA
+      EXCLUIR CONTA
   ========================= */
   async function handleExcluir() {
     const confirmacao = window.confirm(
@@ -133,7 +134,7 @@ function PerfilAluno() {
   }
 
   /* =========================
-     🚪 LOGOUT
+      LOGOUT
   ========================= */
   function handleLogout() {
     localStorage.removeItem("token");
