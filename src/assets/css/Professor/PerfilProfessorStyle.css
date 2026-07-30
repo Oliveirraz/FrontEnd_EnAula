@@ -1,28 +1,26 @@
-/* CONTAINER */
-.professor-containerperfil {
-   min-height: auto; /* deixa crescer só com o conteúdo */
+/* CONTAINER — nome corrigido para bater com o JSX (professor-containerPerfil) */
+.professor-containerPerfil {
+  min-height: auto;
   width: 100%;
   display: flex;
-  justify-content: center; /* centraliza o card horizontalmente */
+  justify-content: center;
   padding: 32px 16px;
   box-sizing: border-box;
 }
 
-
 /* CARD */
 .professorPerfil-card {
-  width: 1300px;
-  max-width: 95vw;
+  width: 100%;
+  max-width: 1100px; /* antes: width:1300px + max-width:95vw, ficava colado nas bordas */
   background-color: rgba(26, 109, 101, 0.88);
   backdrop-filter: blur(4px);
   border-radius: 14px;
   padding: 24px;
-  padding-right: 40px;
   color: #ffffff;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   position: relative;
+  box-sizing: border-box;
 }
-
 
 /* BOTÃO LOGOUT */
 .professor-btn-logout {
@@ -43,7 +41,6 @@
   transform: scale(1.1);
 }
 
-
 /* FOTO */
 .professor-foto {
   width: 140px;
@@ -51,7 +48,7 @@
   border-radius: 50%;
   object-fit: cover;
   display: block;
-  margin: 0 auto 12px; /* centraliza horizontalmente e dá espaçamento abaixo */
+  margin: 0 auto 12px;
 }
 
 /* UPLOAD */
@@ -61,20 +58,20 @@
   font-size: 14px;
   cursor: pointer;
   margin: 0 auto 20px;
-  width: 10%;
+  width: auto; /* antes: 10% — em telas pequenas ficava minúsculo/clicável demais */
 }
 
-/* CONTEÚDO PRINCIPAL */
+/* CONTEÚDO PRINCIPAL — agora quebra linha em telas estreitas */
 .professor-conteudo {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
-
-
 /* COLUNA ESQUERDA */
 .professor-perfil {
-  width: 360px;
+  width: 100%;
+  max-width: 360px; /* antes: width:360px fixo, forçava a coluna a não encolher */
   margin-top: 16px;
 }
 
@@ -85,28 +82,28 @@
   border-radius: 6px;
   border: none;
   margin-top: 8px;
+  box-sizing: border-box;
 }
 
 /* COLUNA DIREITA (MATÉRIAS + AULAS) */
 .professor-direita {
-  flex: 1;
+  flex: 1 1 400px; /* antes: flex:1 sem base mínima — encolhia demais e espremia o conteúdo */
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   padding-top: 40px;
 }
 
-
 /* BLOCOS MATÉRIAS / AULAS */
 .professor-materias {
-  flex: 0 0 50%; /* ocupa metade da largura */
+  flex: 1 1 260px; /* antes: flex: 0 0 50% fixo — quebrava mal em telas médias */
   background-color: rgba(255, 255, 255, 0.12);
   border-radius: 10px;
   padding: 12px;
   display: flex;
   flex-direction: column;
-  margin-top: 0px; /* ajusta a distância do topo */
+  margin-top: 0px;
 }
-
 
 /* TÍTULO */
 .professor-titulo {
@@ -179,9 +176,21 @@
   transform: translateY(-2px);
 }
 
-
 /* Cores por ação */
 .acao.salvar { background-color: rgba(16, 185, 129, 0.4); }
 .acao.materias { background-color: rgba(59, 130, 246, 0.4); }
 .acao.aula { background-color: rgba(5, 150, 105, 0.4); }
 .acao.excluir { background-color: rgba(239, 68, 68, 0.45); }
+
+/* AJUSTE FINO PARA TELAS PEQUENAS */
+@media (max-width: 600px) {
+  .professorPerfil-card {
+    padding: 16px;
+  }
+  .professor-conteudo {
+    gap: 12px;
+  }
+  .professor-perfil {
+    max-width: 100%;
+  }
+}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../assets/css/ListaAulas.css";
-import { listarAulas, matricularAluno } from "../services/aulaService";
+import { listarAulas, solicitarMatricula } from "../services/aulaService";
 
 function ListaAulas() {
   const [aulas, setAulas] = useState([]);
@@ -9,6 +9,9 @@ function ListaAulas() {
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [busca, setBusca] = useState("");
   const [termo, setTermo] = useState("");
+
+  // 🆕 controla quais aulas já foram solicitadas nesta sessão
+  const [solicitadas, setSolicitadas] = useState([]);
 
   useEffect(() => {
     async function carregarAulas() {
@@ -37,18 +40,15 @@ function ListaAulas() {
     }
   }
 
-  async function handleMatricular(aulaId) {
+  async function handleSolicitarMatricula(aulaId) {
     try {
       setLoading(true);
-      // ✅ sem alunoId — backend pega pelo token JWT
-      await matricularAluno(aulaId);
-      alert("Matriculado com sucesso!");
-      const pageData = await listarAulas(pagina, 12, termo);
-      setAulas(pageData.content);
-      setTotalPaginas(pageData.totalPages);
+      const mensagem = await solicitarMatricula(aulaId);
+      alert(mensagem || "Solicitação enviada! Aguarde a aprovação do professor.");
+      setSolicitadas((prev) => [...prev, aulaId]);
     } catch (error) {
-      console.error("Erro ao matricular", error);
-      alert(error.response?.data?.message || "Erro ao matricular.");
+      console.error("Erro ao solicitar matrícula", error);
+      alert(error.response?.data?.message || error.response?.data || "Erro ao solicitar matrícula.");
     } finally {
       setLoading(false);
     }
@@ -72,26 +72,35 @@ function ListaAulas() {
       {aulas.length === 0 && <p>Nenhuma aula encontrada.</p>}
 
       <div className="aulas-grid">
-        {aulas.map((aula) => (
-          <div className="aula-card" key={aula.id}>
-            <h3>{aula.nomeMateria}</h3>
-            <p className="descricao">{aula.descricaoMateria}</p>
-            <p><strong>Professor:</strong> {aula.nomeProfessor}</p>
-            <p><strong>Valor/Hora:</strong> R$ {aula.valorHora ?? "Não informado"}</p>
-            <p><strong>Data:</strong> {aula.data}</p>
-            <p><strong>Horário:</strong> {aula.horaInicio} às {aula.horaFim}</p>
-            <p><strong>Local:</strong> {aula.local}</p>
-            <p className="vagas">
-              <strong>Vagas disponíveis:</strong> {aula.vagasDisponiveis} / {aula.capacidadeMaxima}
-            </p>
-            <button
-              disabled={aula.vagasDisponiveis === 0}
-              onClick={() => handleMatricular(aula.id)}
-            >
-              {aula.vagasDisponiveis === 0 ? "Aula cheia" : "Matricular-se"}
-            </button>
-          </div>
-        ))}
+        {aulas.map((aula) => {
+          const jaSolicitou = solicitadas.includes(aula.id);
+          const aulaCheia = aula.vagasDisponiveis === 0;
+
+          return (
+            <div className="aula-card" key={aula.id}>
+              <h3>{aula.nomeMateria}</h3>
+              <p className="descricao">{aula.descricaoMateria}</p>
+              <p><strong>Professor:</strong> {aula.nomeProfessor}</p>
+              <p><strong>Valor/Hora:</strong> R$ {aula.valorHora ?? "Não informado"}</p>
+              <p><strong>Data:</strong> {aula.data}</p>
+              <p><strong>Horário:</strong> {aula.horaInicio} às {aula.horaFim}</p>
+              <p><strong>Local:</strong> {aula.local}</p>
+              <p className="vagas">
+                <strong>Vagas disponíveis:</strong> {aula.vagasDisponiveis} / {aula.capacidadeMaxima}
+              </p>
+              <button
+                disabled={aulaCheia || jaSolicitou}
+                onClick={() => handleSolicitarMatricula(aula.id)}
+              >
+                {jaSolicitou
+                  ? "Solicitação enviada ✔"
+                  : aulaCheia
+                  ? "Aula cheia"
+                  : "Solicitar matrícula"}
+              </button>
+            </div>
+          );
+        })}
       </div>
 
       {totalPaginas > 1 && (
