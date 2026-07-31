@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
 import "../../assets/css/ProfessorAulaDetalheStyle.css";
-import { atualizarAula, deletarAula } from "../../services/aulaService";
+import { atualizarAula, deletarAula, cancelarAula } from "../../services/aulaService";
 
 export default function ProfessorAulaDetalhe() {
   const { id } = useParams();
@@ -15,7 +15,7 @@ export default function ProfessorAulaDetalhe() {
   useEffect(() => {
     async function carregarDados() {
       try {
-        // ✅ rota correta
+        //  rota correta
         const aulaResp = await api.get(`/aulas/professor/me/${id}`);
         const data = aulaResp.data;
 
@@ -34,7 +34,7 @@ export default function ProfessorAulaDetalhe() {
           descricaoMateria: data.descricaoMateria,
         });
 
-        // ✅ carrega matérias para o select
+        // carrega matérias para o select
         const matResp = await api.get("/materias/professor/me");
         setMaterias(matResp.data);
       } catch (error) {
@@ -85,6 +85,22 @@ export default function ProfessorAulaDetalhe() {
       alert("Erro ao excluir aula.");
     }
   }
+
+  async function handleCancelarAula() {
+  const confirmacao = window.confirm(
+    "Deseja cancelar esta aula? Os alunos matriculados serão notificados por e-mail."
+  );
+  if (!confirmacao) return;
+
+  try {
+    await cancelarAula(aula.id);
+    alert("Aula cancelada com sucesso! Os alunos foram notificados por e-mail.");
+    navigate("/perfil-professor");
+  } catch (error) {
+    console.error("Erro ao cancelar aula:", error);
+    alert(error.response?.data?.message || "Erro ao cancelar aula.");
+  }
+}
 
   if (loading) return <p style={{ textAlign: "center" }}>Carregando...</p>;
   if (!aula) return null;
@@ -148,6 +164,10 @@ export default function ProfessorAulaDetalhe() {
 
           <button className="excluir full" onClick={handleExcluir}>
             🗑 Excluir Aula
+          </button>
+
+          <button className="excluir full" onClick={handleCancelarAula} style={{ marginTop: "8px" }}>
+            📣 Cancelar Aula (notifica alunos)
           </button>
 
         </div>

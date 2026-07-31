@@ -31,9 +31,18 @@ export async function deletarAula(id) {
   await api.delete(`/aulas/professor/me/${id}`);
 }
 
-// 🔄 SUBSTITUI o antigo matricularAluno (matrícula imediata)
+// SUBSTITUI o antigo matricularAluno (matrícula imediata)
 // Agora apenas SOLICITA a matrícula — o professor precisa aceitar por e-mail
 export async function solicitarMatricula(aulaId) {
   const response = await api.post(`/matriculas/aulas/${aulaId}/solicitar`);
   return response.data;
+}
+
+export async function cancelarMatricula(aulaId) {
+  const response = await api.delete(`/matriculas/aulas/${aulaId}/cancelar`);
+  return response.data;
+}
+
+export async function cancelarAula(id) {
+  await api.delete(`/aulas/professor/me/${id}/cancelar`);
 }

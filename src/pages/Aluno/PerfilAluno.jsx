@@ -5,6 +5,7 @@ import {
   atualizarAluno,
   deletarAluno,
 } from "../../services/alunoservice";
+import { cancelarMatricula } from "../../services/aulaService";
 import api from "../../services/api";
 import JitsiMeet from "../../components/JitsiMeet";
 
@@ -46,6 +47,25 @@ function PerfilAluno() {
     } catch (error) {
       console.error("Erro ao buscar aluno logado", error);
       navigate("/login");
+    }
+  }
+
+  /* =========================
+      CANCELAR MATRÍCULA
+  ========================= */
+  async function handleCancelarMatricula(aulaId) {
+    const confirmacao = window.confirm(
+      "Tem certeza que deseja cancelar sua matrícula nesta aula? O professor será notificado por e-mail."
+    );
+    if (!confirmacao) return;
+
+    try {
+      await cancelarMatricula(aulaId);
+      alert("Matrícula cancelada com sucesso!");
+      buscarAulasDoAluno(); // atualiza a lista, removendo a aula cancelada
+    } catch (error) {
+      console.error("Erro ao cancelar matrícula", error);
+      alert(error.response?.data?.message || error.response?.data || "Erro ao cancelar matrícula.");
     }
   }
 
@@ -221,47 +241,55 @@ function PerfilAluno() {
                 <p>Carregando aulas...</p>
               ) : aulas.length > 0 ? (
                 aulas.map((aula) => (
-  <div className="aluno-aula" key={aula.id}>
-    <strong>{aula.nomeMateria}</strong>
+                  <div className="aluno-aula" key={aula.id}>
+                    <strong>{aula.nomeMateria}</strong>
 
-    {aula.descricaoMateria && (
-      <p className="aluno-assunto">
-        📘 Assunto: {aula.descricaoMateria}
-      </p>
-    )}
+                    {aula.descricaoMateria && (
+                      <p className="aluno-assunto">
+                        📘 Assunto: {aula.descricaoMateria}
+                      </p>
+                    )}
 
-    <p>
-      Professor:{" "}
-      <Link
-        to={`/professor/${aula.idProfessor}`}
-        className="aluno-professor"
-      >
-        {aula.nomeProfessor}
-      </Link>
-    </p>
+                    <p>
+                      Professor:{" "}
+                      <Link
+                        to={`/professor/${aula.idProfessor}`}
+                        className="aluno-professor"
+                      >
+                        {aula.nomeProfessor}
+                      </Link>
+                    </p>
 
-    <p>
-      📅 {aula.data} | ⏰ {aula.horaInicio} - {aula.horaFim}
-    </p>
+                    <p>
+                      📅 {aula.data} | ⏰ {aula.horaInicio} - {aula.horaFim}
+                    </p>
 
-    <p>📍 {aula.local}</p>
+                    <p>📍 {aula.local}</p>
 
-    {aulaAtiva === aula.id ? (
-      <JitsiMeet
-        aulaId={aula.id}
-        userName={aluno.nome}
-        onClose={() => setAulaAtiva(null)}
-      />
-    ) : (
-      <button
-        className="aluno-btn-materias"
-        onClick={() => setAulaAtiva(aula.id)}
-      >
-        📹 Entrar na Aula
-      </button>
-    )}
-  </div>
-))
+                    {aulaAtiva === aula.id ? (
+                      <JitsiMeet
+                        aulaId={aula.id}
+                        userName={aluno.nome}
+                        onClose={() => setAulaAtiva(null)}
+                      />
+                    ) : (
+                      <button
+                        className="aluno-btn-materias"
+                        onClick={() => setAulaAtiva(aula.id)}
+                      >
+                        📹 Entrar na Aula
+                      </button>
+                    )}
+
+                    <button
+                      className="aluno-btn-excluir"
+                      style={{ marginTop: "6px" }}
+                      onClick={() => handleCancelarMatricula(aula.id)}
+                    >
+                      ❌ Cancelar Matrícula
+                    </button>
+                  </div>
+                ))
               ) : (
                 <p className="aluno-sem-materias">
                   Você ainda não está matriculado em nenhuma aula.
