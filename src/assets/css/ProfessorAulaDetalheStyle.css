@@ -1,14 +1,12 @@
 /* ===============================
    TELA DETALHE DA AULA
 ================================ */
-
 .professor-aula-detalhe {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-/* TÍTULO */
 .professor-aula-detalhe h2 {
   text-align: center;
   font-size: 1.6rem;
@@ -16,7 +14,9 @@
   color: #2c3e50;
 }
 
-/* BLOCO DE INFO FIXA */
+/* ===============================
+   BLOCO DE INFO FIXA
+================================ */
 .professor-aula-info {
   background: #f7f9fc;
   padding: 14px;
@@ -30,7 +30,9 @@
   color: #222;
 }
 
-/* FORMULÁRIO */
+/* ===============================
+   FORMULÁRIO
+================================ */
 .professor-aula-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -40,7 +42,8 @@
 
 .professor-aula-form label {
   font-size: 0.85rem;
-  color: #555;
+  font-weight: 700;
+  color: #0e0102;
 }
 
 .professor-aula-form input {
@@ -56,46 +59,8 @@
   border-color: #3498db;
 }
 
-/* FORM OCUPANDO LINHA TODA */
 .professor-aula-form .full {
   grid-column: span 2;
-}
-
-/* AÇÕES */
-.professor-aula-acoes {
-  margin-top: 20px;
-}
-
-/* BOTÕES */
-.professor-aula-acoes button {
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s ease;
-}
-
-/* BOTÃO VOLTAR */
-.professor-aula-acoes .voltar {
-  background: #bdc3c7;
-  color: #2c3e50;
-}
-
-.professor-aula-acoes .voltar:hover {
-  background: #95a5a6;
-}
-
-
-/* RESPONSIVO */
-@media (max-width: 768px) {
-  .professor-aula-form {
-    grid-template-columns: 1fr;
-  }
-
-  .professor-aula-form .full {
-    grid-column: span 1;
-  }
 }
 
 .professor-aula-form .salvar {
@@ -106,10 +71,15 @@
   font-size: 0.9rem;
   border: none;
   cursor: pointer;
-  width: 100%; /* ocupa todo o espaço da célula do grid */
+  width: 100%;
   transition: all 0.2s ease;
 }
-.professor-aula-form .excluir{
+
+.professor-aula-form .salvar:hover {
+  background: #27ae60;
+}
+
+.professor-aula-form .excluir {
   background-color: rgba(199, 9, 9, 0.897);
   height: 42px;
   border-radius: 8px;
@@ -117,9 +87,194 @@
   transition: all 0.2s ease;
   padding: 10px 14px;
   cursor: pointer;
-
+  color: #fff;
 }
 
-.professor-aula-form .salvar:hover {
-  background: #27ae60;
+/* ===============================
+   AÇÕES GERAIS (VOLTAR)
+================================ */
+.professor-aula-acoes {
+  margin-top: 20px;
+}
+
+.professor-aula-acoes button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.professor-aula-acoes .voltar {
+  background: #bdc3c7;
+  color: #2c3e50;
+}
+
+.professor-aula-acoes .voltar:hover {
+  background: #95a5a6;
+}
+
+/* ===============================
+   ALUNOS MATRICULADOS
+================================ */
+.professor-alunos-secao {
+  margin-top: 24px;
+}
+
+.professor-alunos-secao h3 {
+  font-size: 1.1rem;
+  font-weight: 510;
+  color: #0e0102;
+  margin-bottom: 10px;
+}
+
+.professor-alunos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.professor-aluno-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f7f9fc;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.professor-aluno-foto {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.professor-aluno-dados {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  min-width: 0; /* evita overflow de texto longo */
+}
+
+.professor-aluno-dados strong {
+  color: #222;
+  font-weight: 600;
+}
+
+.professor-aluno-dados span {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.professor-aluno-acoes {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.professor-aluno-acoes button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.professor-aluno-acoes .ver-perfil {
+  background: #3498db;
+  color: #fff;
+}
+
+.professor-aluno-acoes .remover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.professor-aluno-acoes button:hover {
+  opacity: 0.85;
+}
+
+/* ===============================
+   MODAL DE PERFIL DO ALUNO
+================================ */
+.aluno-perfil-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.aluno-perfil-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 320px;
+  max-width: 90vw;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.aluno-perfil-modal h3 {
+  color: #222;
+  margin: 4px 0;
+}
+
+.aluno-perfil-modal p {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.aluno-perfil-modal-fechar {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #666;
+}
+
+.aluno-perfil-modal-foto {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.aluno-perfil-modal .excluir {
+  margin-top: 16px;
+  width: 100%;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* ===============================
+   RESPONSIVO
+================================ */
+@media (max-width: 768px) {
+  .professor-aula-form {
+    grid-template-columns: 1fr;
+  }
+
+  .professor-aula-form .full {
+    grid-column: span 1;
+  }
 }

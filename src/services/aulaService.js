@@ -46,3 +46,12 @@ export async function cancelarMatricula(aulaId) {
 export async function cancelarAula(id) {
   await api.delete(`/aulas/professor/me/${id}/cancelar`);
 }
+
+export async function listarAlunosDaAula(aulaId) {
+  const response = await api.get(`/aulas/professor/me/${aulaId}/alunos`);
+  return response.data;
+}
+
+export async function removerAlunoDaAula(aulaId, alunoId) {
+  await api.delete(`/aulas/professor/me/${aulaId}/alunos/${alunoId}`);
+}

@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
 import "../../assets/css/ProfessorAulaDetalheStyle.css";
-import { atualizarAula, deletarAula, cancelarAula } from "../../services/aulaService";
+import {
+  atualizarAula,
+  deletarAula,
+  cancelarAula,
+  listarAlunosDaAula,
+  removerAlunoDaAula,
+} from "../../services/aulaService";
+import { buscarAlunoPorId } from "../../services/alunoservice";
 
 export default function ProfessorAulaDetalhe() {
   const { id } = useParams();
@@ -11,6 +18,14 @@ export default function ProfessorAulaDetalhe() {
   const [aula, setAula] = useState(null);
   const [materias, setMaterias] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // 🆕 ALUNOS MATRICULADOS
+  const [alunos, setAlunos] = useState([]);
+  const [loadingAlunos, setLoadingAlunos] = useState(true);
+
+  // 🆕 PERFIL DO ALUNO (modal)
+  const [alunoSelecionado, setAlunoSelecionado] = useState(null);
+  const [loadingPerfil, setLoadingPerfil] = useState(false);
 
   useEffect(() => {
     async function carregarDados() {
@@ -47,6 +62,21 @@ export default function ProfessorAulaDetalhe() {
     }
     carregarDados();
   }, [id, navigate]);
+
+  // 🆕 CARREGAR ALUNOS MATRICULADOS
+  useEffect(() => {
+    async function carregarAlunos() {
+      try {
+        const data = await listarAlunosDaAula(id);
+        setAlunos(data);
+      } catch (error) {
+        console.error("Erro ao carregar alunos da aula:", error);
+      } finally {
+        setLoadingAlunos(false);
+      }
+    }
+    carregarAlunos();
+  }, [id]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -101,6 +131,48 @@ export default function ProfessorAulaDetalhe() {
     alert(error.response?.data?.message || "Erro ao cancelar aula.");
   }
 }
+
+  // 🆕 VER PERFIL DO ALUNO
+  async function handleVerPerfil(alunoId) {
+    setLoadingPerfil(true);
+    try {
+      const perfil = await buscarAlunoPorId(alunoId);
+      setAlunoSelecionado(perfil);
+    } catch (error) {
+      console.error("Erro ao buscar perfil do aluno:", error);
+      alert("Erro ao carregar perfil do aluno.");
+    } finally {
+      setLoadingPerfil(false);
+    }
+  }
+
+  function handleFecharPerfil() {
+    setAlunoSelecionado(null);
+  }
+
+  // 🆕 REMOVER ALUNO DA AULA
+  async function handleRemoverAluno(alunoId, alunoNome) {
+    const confirmacao = window.confirm(
+      `Deseja remover ${alunoNome} desta aula? O aluno será notificado por e-mail.`
+    );
+    if (!confirmacao) return;
+
+    try {
+      await removerAlunoDaAula(aula.id, alunoId);
+      alert("Aluno removido com sucesso!");
+
+      // atualiza a lista local sem precisar recarregar tudo
+      setAlunos((prev) => prev.filter((a) => a.id !== alunoId));
+
+      // se o perfil removido estava aberto no modal, fecha
+      if (alunoSelecionado?.id === alunoId) {
+        setAlunoSelecionado(null);
+      }
+    } catch (error) {
+      console.error("Erro ao remover aluno:", error);
+      alert(error.response?.data?.message || "Erro ao remover aluno.");
+    }
+  }
 
   if (loading) return <p style={{ textAlign: "center" }}>Carregando...</p>;
   if (!aula) return null;
@@ -172,6 +244,50 @@ export default function ProfessorAulaDetalhe() {
 
         </div>
 
+        {/* 🆕 ALUNOS MATRICULADOS */}
+        <div className="professor-alunos-secao">
+          <h3>Alunos matriculados</h3>
+
+          {loadingAlunos ? (
+            <p>Carregando alunos...</p>
+          ) : alunos.length === 0 ? (
+            <p className="professor-sem-materias">Nenhum aluno matriculado nesta aula.</p>
+          ) : (
+            <div className="professor-alunos-lista">
+              {alunos.map((aluno) => (
+                <div className="professor-aluno-item" key={aluno.id}>
+                  <img
+                    src={aluno.foto || "https://via.placeholder.com/48"}
+                    alt={aluno.nome}
+                    className="professor-aluno-foto"
+                  />
+
+                  <div className="professor-aluno-dados">
+                    <strong>{aluno.nome}</strong>
+                    <span>{aluno.email}</span>
+                  </div>
+
+                  <div className="professor-aluno-acoes">
+                    <button
+                      className="ver-perfil"
+                      onClick={() => handleVerPerfil(aluno.id)}
+                    >
+                      👁 Ver perfil
+                    </button>
+
+                    <button
+                      className="remover"
+                      onClick={() => handleRemoverAluno(aluno.id, aluno.nome)}
+                    >
+                      ❌ Remover
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div className="professor-aula-acoes">
           <button className="voltar" onClick={() => navigate("/perfil-professor")}>
             ⬅ Voltar
@@ -179,6 +295,38 @@ export default function ProfessorAulaDetalhe() {
         </div>
 
       </div>
+
+      {/* 🆕 MODAL DE PERFIL DO ALUNO */}
+      {(alunoSelecionado || loadingPerfil) && (
+        <div className="aluno-perfil-modal-overlay" onClick={handleFecharPerfil}>
+          <div className="aluno-perfil-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="aluno-perfil-modal-fechar" onClick={handleFecharPerfil}>✕</button>
+
+            {loadingPerfil ? (
+              <p>Carregando perfil...</p>
+            ) : (
+              <>
+                <img
+                  src={alunoSelecionado.foto || "https://via.placeholder.com/100"}
+                  alt={alunoSelecionado.nome}
+                  className="aluno-perfil-modal-foto"
+                />
+                <h3>{alunoSelecionado.nome}</h3>
+                <p>{alunoSelecionado.email}</p>
+
+                <button
+                  className="excluir"
+                  onClick={() =>
+                    handleRemoverAluno(alunoSelecionado.id, alunoSelecionado.nome)
+                  }
+                >
+                  ❌ Remover da aula
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
